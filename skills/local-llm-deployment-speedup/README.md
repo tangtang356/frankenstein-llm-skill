@@ -32,6 +32,7 @@ V100最终草稿为**DSpine K7 NVFP4**；独立整轮补测为13.57～13.77ms/�
 - [短代码/缓存/视觉样例](assets/short-tests.md)，包含本包自制的两张小PNG；不代表真实任务或全面质量验收。
 - [历史经验](references/experience-cases.md)，明确区别私人历史记录、公开方法与本机实测。
 - [主案例：IQ3_XXS → IQ3_S → IQ3_XXS](references/case-swift-iq3xxs-python.md)，按Python单项展示每一步的优化方法与数值，以及后期温度0、关闭思考时的常态和峰值表现。
+- [GitHub源码对照](references/github-runtime-comparison.md)，按当前瓶颈核对固定版本、调用链、分派及本地补丁差异，在授权内接续实施。
 - [毫秒实测补充](references/millisecond-case-lessons.md)，把双2080Ti、Pi/DSpine、Ripple与负向实验转成请求分支、准备/等待、形状覆盖、融合、事件和测量的实施步骤。
 - [优化工程拆解](references/optimization-engineering.md)，按瓶颈讲解专家供给组合、SM75适配、双卡流水线、状态轮换、续接和跨模型继承。
 - [缓存破坏专项](references/cache-invalidation.md)、[十二组故障案例](references/cache-failure-cases.md)及[长思考与KV快照专项](references/reasoning-prefix-cache.md)，从思考/工具/图片往返追到共同恢复边界、依赖页和回收生命周期。

@@ -48,6 +48,8 @@
 
 证据：`dspine-k8-opt/RESULTS.txt`、`candidate-final-trace-summary.json`；双2080Ti总结第5节；[V100案例](case-v100-pi-dspine.md)。
 
+除快路径是否命中，还要核对有效行数与补齐后的图尺寸，Graph之外的plan/JIT/capture是否重复发生，以及eager/分段图转入完整图时的旧异步工作是否仍在读写静态缓冲。相关公开代码见[仓库对照示例](github-runtime-comparison.md#本轮公开源码核对示例)；这是代码层面的补充检查方向，不是新增本机实测收益。
+
 ## 5. 融合前先找重复数据准备，并保留数值语义
 
 查同一输入是否被相邻Q/K/G或Gate/Up各自转换、重排、归一化或gather；是否能将准备移出矩阵内循环、让消费者直接读取已准备布局。确认权重码、块尺度、逐通道/分片全局尺度、中间舍入点、累加顺序和输出dtype，不能因统称NVFP4就合并尺度，也不能默默消掉原来的BF16/FP16舍入。
