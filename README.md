@@ -57,6 +57,7 @@ Developed through the author's deployment work since September 2026. These are h
 
 - [V100: research, DSpine integration, runtime optimization, and cache repair](skills/local-llm-deployment-speedup/references/case-v100-pi-dspine.md)
 - [Dual 2080 Ti: expert supply, kernels, pipeline, and state management](skills/local-llm-deployment-speedup/references/case-swift-iq3xxs-python.md)
+- [Long-context attention: implementation workflow and five source-level repository cases](skills/local-llm-deployment-speedup/references/long-attention-optimization.md) — split-KV, reduction, KV layout, dispatch, CUDA Graphs, and runtime verification (Chinese).
 - [Implementation methods organized by bottleneck](skills/local-llm-deployment-speedup/references/optimization-engineering.md)
 
 Private runtime logs are not included. The cases explain conditions, measurements, and limitations; this repository is not a publicly reproducible benchmark suite. The V100 short-test case reports syntax checks rather than executed-function correctness, and does not establish full application acceptance.

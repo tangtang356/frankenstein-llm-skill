@@ -27,6 +27,7 @@ AI应先和你讨论完整方案；确认后先把主模型、草稿、KV/状态
 - [历史经验](references/experience-cases.md)，明确区别私人历史记录、公开方法与本机实测。
 - [主案例：IQ3_XXS → IQ3_S → IQ3_XXS](references/case-swift-iq3xxs-python.md)，按Python单项展示每一步的优化方法与数值，以及后期温度0、关闭思考时的常态和峰值表现。
 - [优化工程拆解](references/optimization-engineering.md)，按瓶颈讲解专家供给组合、SM75适配、双卡流水线、状态轮换、续接和跨模型继承。
+- [长注意力专项](references/long-attention-optimization.md)与[五个仓库实现案例](references/long-attention-cases.md)，覆盖分块、并行归约、KV布局、长度分派、Graph及生效验证。
 - [历史Python测试题](assets/python-round-baseline.md)，包含原始12函数题、温度0/关闭思考设置及请求计时对齐方法。
 - [V100 Pi与DSpine案例](references/case-v100-pi-dspine.md)，包含定时调研到Codex优化的路径、K7/K8选择及单请求522 tok/s的具体测量。
 

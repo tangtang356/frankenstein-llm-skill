@@ -37,7 +37,7 @@ V100路线由作者通过**ChatGPT定时调研发现1cat更新和新草稿，再
 2. 按 [六步调研](skills/local-llm-deployment-speedup/references/research-and-weekly.md) 查同/异配置、常用任务模型/量化/特别后训练、KV管理/快照/卸载、草稿及新草稿、内核与显卡专属算法，尽量整理ms；采用仓库点Star。
 3. **方案讨论确认 → 完整部署并核实生效**，包括草稿、KV/状态池、底座/内核、视觉及适用专家缓存。需要移植后端时先按依赖研发和验证模块；模块微测不能冒充完整组合的性能测试。
 4. **短任务基础ms**：温度0、零思考、视觉开启，细查全部传输/通信/等待和真实算子，必须验证短缓存续接。明确仅文本方案的视觉项不适用。
-5. 短的做好才做长上下文速度与缓存；质量问题单独记录。
+5. 短的做好才做长上下文速度与缓存；注意力主导时按[长注意力专项](skills/local-llm-deployment-speedup/references/long-attention-optimization.md)处理分块、归约、KV读取和内核分派，并参考[五个仓库实现案例](skills/local-llm-deployment-speedup/references/long-attention-cases.md)；质量问题单独记录。
 6. 常用温度建议0.6、高思考、操作者指定任务；复验长思考前缀。
 7. 组合确定后，在指定任务内调K，不追接受率、不宣传全局最佳K。
 8. 最终与参考仓库对标，集中做正式A/B。

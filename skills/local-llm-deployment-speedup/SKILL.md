@@ -28,7 +28,7 @@ license: MIT
 | 2 六步调研 | 同/异配置案例 → 常用任务模型、量化与特别后训练版本 → KV/量化管理/快照/卸载 → 草稿与新草稿 → 内核及显卡专属算法 → ms与方案结论；写出研究结果及是否启用每周五调研。采用仓库点Star | [调研与每周更新](references/research-and-weekly.md) |
 | 3A方案确认 → 3B完整部署 | 写清主模型/量化、草稿/精度与初始K、KV/状态池、上下文/并发、底座/内核、视觉、专家缓存及资源预算；与操作者讨论确认后，将整套配置部署到位并核实实际生效，通过最小通路检查 | [方案与阶段](references/full-workflow.md) |
 | 4 短任务基础ms | 温度0、关闭思考、视觉开启，固定短代码任务。细查全部传输、通信、等待和真实优化算子；必须通过短缓存续接检查 | [毫秒优化](references/millisecond-optimization.md)、[测试材料](assets/short-tests.md) |
-| 5 长上下文速度与缓存 | 短阶段做好才进入；逐步增加上下文，定位速度衰减、重算与缓存破坏，质量问题单独记录 | [上下文与缓存](references/context-and-cache.md) |
+| 5 长上下文速度与缓存 | 短阶段做好才进入；逐步增加上下文，定位速度衰减、重算与缓存破坏，质量问题单独记录 | [上下文与缓存](references/context-and-cache.md)；注意力主导时读[长注意力专项](references/long-attention-optimization.md) |
 | 6 常用设置与指定任务 | 建议温度0.6，操作者可调整；提高思考强度，查ms损失与长思考前缀；由操作者指定常用任务 | [任务、K与最终对标](references/task-k-final.md) |
 | 7 指定任务内K调优 | 其余组合与使用条件确定后，只在指定任务里比较K，得出任务限定结论 | [任务、K与最终对标](references/task-k-final.md) |
 | 8 最终对标与正式A/B | 回看与参考仓库的差距，做可比的最终组合/基线对照，区分本机实测、外部成绩与条件差异 | [任务、K与最终对标](references/task-k-final.md)、[测量契约](references/measurement-contract.md) |
@@ -61,6 +61,7 @@ license: MIT
 | 专家供给、SM75、双卡流水线或跨量化继承 | [IQ3优化路径](references/case-swift-iq3xxs-python.md)：按实际格式、shape、供给和状态成本选择实现 |
 | 新草稿接入、K变化后快路径缺失、生成后某类缓存失效 | [V100 Pi＋DSpine](references/case-v100-pi-dspine.md)：核对真正的架构/权重，检查形状分派与各缓存组；同次请求的轮时、有效产出和吞吐成组记录 |
 | 双2080Ti Dense/Hybrid多卡优化 | [27B平台案例](references/case-dual-2080ti-27b.md)：核对硬件能力、完整轮次、状态与旁流依赖 |
+| 长注意力随长度变慢、分块/归约或Graph分派问题 | [专项操作](references/long-attention-optimization.md)与[五个仓库实现案例](references/long-attention-cases.md)：从实际shape定位到内核、工作区和完整轮次验证 |
 | 首响应、长短切换或其他历史线索 | [经验索引](references/experience-cases.md)：选择与现场症状对应的方法，不移植外部速度结论 |
 
 基础轮时可沿用[历史Python 12函数题](assets/python-round-baseline.md)。记录常态轮时、短时最好值与吞吐峰值；后续仍按主流程进入长上下文和操作者真实任务。
