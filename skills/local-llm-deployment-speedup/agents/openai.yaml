@@ -1,6 +1,6 @@
 interface:
   display_name: "本地模型部署与提速"
-  short_description: "按硬件与案例部署，先优化短任务毫秒和传输，再验证长缓存与真实任务"
-  default_prompt: "使用 $local-llm-deployment-speedup 盘点目标机器并调研部署方案，先与我讨论确认，再按短任务毫秒、长缓存和常用任务的顺序推进。"
+  short_description: "分析各仓库快的原因，复用代码并移植机制，验证缝合后的速度、缓存与真实任务"
+  default_prompt: "使用 $local-llm-deployment-speedup 按目标硬件和用途分析相关仓库快的原因，读取源码、复用代码或编写机制移植，沿用已有授权和进度，完成部署及短任务毫秒、长缓存和常用任务验证。"
 policy:
   allow_implicit_invocation: true

@@ -2,11 +2,13 @@
 
 ![Frankenstein — Deploy / Optimize / Resume](docs/images/hero.png)
 
-**Give your AI agent an engineering workflow to deploy local models and keep improving the ones you already run.**
+**Stitch together proven inference components. Adapt what is necessary. Verify the complete deployment.**
 
 English | [简体中文](README.zh-CN.md)
 
-Frankenstein is an Agent Skill for hardware-aware model selection, deployment, inference optimization, and real-task validation. It connects research to actual runtime behavior: compute, data transfers, waiting, prefix reuse, and memory budgets.
+Frankenstein is an Agent Skill centered on composing existing inference implementations across repositories. Combinations such as **Strata + 1Cat + Basalt + Radiance** express its core approach: select useful parts, connect their interfaces and dependencies, and adapt them to the target hardware and model. Find out which path is fast and why, inspect the source, then reuse the code or port its performance mechanism to the target device. Missing V100 support calls for a concrete SM70 implementation plan, not automatic rejection. Write the adaptations needed to preserve that mechanism while avoiding unrelated reinvention.
+
+The workflow connects hardware-aware deployment and optimization to actual runtime behavior: compute, transfers, waiting, prefix reuse, memory budgets, and real-task results. The repositories in a combination depend on the workload; the named combination is not a universal recipe or a performance claim.
 
 This repository contains instructions, engineering case studies, and small test fixtures. It does not include an inference engine or model weights. The execution guides are currently in Chinese; this English page introduces the workflow.
 
@@ -18,7 +20,7 @@ This repository contains instructions, engineering case studies, and small test 
 | An existing deployment | Preserve the working setup, inspect what is actually running, identify bottlenecks, and build on verified improvements |
 | One specific problem | Diagnose slow responses, decode performance, cache loss, transfer stalls, or a backend issue without restarting the entire workflow |
 | A long optimization project | Resume from deployment notes and live process state, reusing completed work |
-| A backend port | Implement and validate runtime, operators, and model components before optimizing the complete configuration |
+| A backend port | Reuse compatible runtime and operator implementations, bridge the missing interfaces, and develop only the remaining required pieces |
 
 The workflow covers local and SSH hosts, GPU and CPU inference, multi-GPU execution, and expert-offload configurations. Compatibility is checked on the target system.
 
