@@ -78,6 +78,10 @@ Private runtime logs are not included. The cases explain conditions, measurement
 
 The guides distinguish observed behavior from unavailable internal metrics. An inaccessible counter stays unverified; it does not become an invented cache hit or prevent unrelated useful work.
 
+## Your real acceptance task
+
+Fill in the [task section at the end of the skill](skills/local-llm-deployment-speedup/SKILL.md#操作者填写真实测试任务): the actual request, input materials, required deliverables, and quality requirements that must not regress. Keep the filled version in your deployment notes. The agent preserves a comparable baseline and checks the final configuration against the same task and criteria; speed cannot compensate for failed requirements.
+
 ## Feedback
 
 For a useful issue, include hardware, model and quantization, backend version, workload, timing definition, cache conditions, and the observed result. Use public or redacted examples. Reports from additional hardware and execution agents are especially valuable.
