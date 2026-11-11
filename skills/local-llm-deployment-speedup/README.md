@@ -34,6 +34,7 @@
 
 - [主流程](SKILL.md) 与按阶段读取的参考文件。
 - [短代码/缓存/视觉样例](assets/short-tests.md)，包含本包自制的两张小PNG；不代表真实任务或全面质量验收。
+- [两个部署案例](references/deployment-cases.md)：四卡V100的Pi／DSpine接入与续接，以及双2080Ti的IQ3优化路径；保留历史配置、步骤和测量口径。
 - [症状路由](references/experience-cases.md)，按当前成本选择调研、代码修改与验收步骤。
 - [供给、计算与调度推进](references/case-swift-iq3xxs-python.md)，按真实瓶颈组合优化并跨模型复用有效机制。
 - [跨仓库缝合](references/cross-repository-composition.md)，先找快的部位与原因、追到源码，再选择宿主与来源、编写目标硬件适配并接通依赖，以完整请求收益裁决。

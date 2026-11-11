@@ -61,6 +61,13 @@ The agent checks complete execution costs, including transfers, synchronization,
 
 The guides explain how to locate code, make changes and validate the running deployment. They are not a benchmark suite or a promise of a particular speed. Detailed instructions are in Chinese.
 
+## Two deployment case studies
+
+- [Four V100 GPUs: Pi 27B and DSpine](skills/local-llm-deployment-speedup/references/deployment-cases.md#案例一四卡-v100): projection fusion, draft integration, shape coverage and generated-prefix recovery. Historical temperature-zero, no-thinking short tests reached about 522 tok/s for a single request's full decode phase; a separate round-measurement run reached about 523 tok/s.
+- [Dual RTX 2080 Ti: IQ3_XXS → IQ3_S → IQ3_XXS](skills/local-llm-deployment-speedup/references/deployment-cases.md#案例二双-2080-ti): expert supply, SM75 kernels, draft output heads, pipeline overlap and state rotation. Later temperature-zero, no-thinking Python tests recorded typical rounds of 21–22 ms, a brief minimum near 18 ms, and peak decode throughput above 220 tok/s as separate observations.
+
+The case studies retain workload and timing boundaries. These are historical local records, not new benchmarks or upstream out-of-the-box results; private raw logs are not included. Detailed case studies are in Chinese.
+
 ## What a completed deployment includes
 
 - The real application/API entry point and start, stop, and reuse instructions.
