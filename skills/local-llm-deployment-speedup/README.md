@@ -4,9 +4,7 @@
 
 覆盖GPU、CPU与专家卸载混合部署。验收先把短任务的完整轮次毫秒、传输和等待做好，再验证长上下文、前缀复用及真正的常用任务。
 
-作者从2026年9月开始打磨本Skill，持续将自己电脑和服务器上的本地模型部署经验、实测和修复整理进技能。作者实测成果包括**4卡V100运行27B，温度0、关闭思考，单请求解码速度峰值约522 tok/s**，以及双2080Ti的IQ3优化路径。V100路线由ChatGPT定时调研发现1cat更新和新草稿，再由作者使用Codex实施适配与优化；方法按目标硬件和实际版本适配。
-
-V100最终草稿为**DSpine K7 NVFP4**；独立整轮补测为13.57～13.77ms/轮、最高约523 tok/s，与首轮522分别记录。
+作者从2026年9月开始打磨本Skill，持续把本地部署中的方法整理为定位、实现与验证步骤。
 
 作者推荐由 **GPT6 ASTRA / KIMI K3.1 PRO / FABLE5** 等后端工程能力强的AI执行。执行者需要目标机终端/SSH、文件和代码/网页读取能力；本包不提供推理引擎、模型权重或账号凭据。推荐名称按作者写法保留，不是API ID或公开性能排名。
 
@@ -36,15 +34,16 @@ V100最终草稿为**DSpine K7 NVFP4**；独立整轮补测为13.57～13.77ms/�
 
 - [主流程](SKILL.md) 与按阶段读取的参考文件。
 - [短代码/缓存/视觉样例](assets/short-tests.md)，包含本包自制的两张小PNG；不代表真实任务或全面质量验收。
-- [历史经验](references/experience-cases.md)，明确区别私人历史记录、公开方法与本机实测。
-- [主案例：IQ3_XXS → IQ3_S → IQ3_XXS](references/case-swift-iq3xxs-python.md)，按Python单项展示每一步的优化方法与数值，以及后期温度0、关闭思考时的常态和峰值表现。
+- [症状路由](references/experience-cases.md)，按当前成本选择调研、代码修改与验收步骤。
+- [供给、计算与调度推进](references/case-swift-iq3xxs-python.md)，按真实瓶颈组合优化并跨模型复用有效机制。
 - [跨仓库缝合](references/cross-repository-composition.md)，先找快的部位与原因、追到源码，再选择宿主与来源、编写目标硬件适配并接通依赖，以完整请求收益裁决。
 - [GitHub源码对照](references/github-runtime-comparison.md)，按当前瓶颈核对固定版本、调用链、分派及本地补丁差异，在授权内接续实施。
-- [毫秒实测补充](references/millisecond-case-lessons.md)，把双2080Ti、Pi/DSpine、Ripple与负向实验转成请求分支、准备/等待、形状覆盖、融合、事件和测量的实施步骤。
-- [优化工程拆解](references/optimization-engineering.md)，按瓶颈讲解专家供给组合、SM75适配、双卡流水线、状态轮换、续接和跨模型继承。
-- [缓存破坏专项](references/cache-invalidation.md)、[十二组故障案例](references/cache-failure-cases.md)及[长思考与KV快照专项](references/reasoning-prefix-cache.md)，从思考/工具/图片往返追到共同恢复边界、依赖页和回收生命周期。
-- [长注意力专项](references/long-attention-optimization.md)与[五个仓库实现案例](references/long-attention-cases.md)，覆盖分块、并行归约、KV布局、长度分派、Graph及生效验证。
-- [历史Python测试题](assets/python-round-baseline.md)，包含原始12函数题、温度0/关闭思考设置及请求计时对齐方法。
-- [V100 Pi与DSpine案例](references/case-v100-pi-dspine.md)，包含定时调研到Codex优化的路径、K7/K8选择及单请求522 tok/s的具体测量。
+- [请求处理与图片优化](references/request-path-overhead.md)，从高缓存命中后的软件等待追到占位扫描、张量传递、重复渲染和图片特征持久复用。
+- [毫秒实施细节](references/millisecond-case-lessons.md)，展开请求分支、准备/等待、形状覆盖、融合、事件与测量的实施步骤。
+- [优化工程拆解](references/optimization-engineering.md)，按瓶颈讲解专家供给组合、设备适配、多卡流水线、状态轮换、续接和跨模型继承。
+- [缓存破坏专项](references/cache-invalidation.md)、[十二类故障处理](references/cache-failure-cases.md)及[长思考与KV快照专项](references/reasoning-prefix-cache.md)，从思考/工具/图片往返追到共同恢复边界、依赖页和回收生命周期。
+- [长注意力专项](references/long-attention-optimization.md)与[五个仓库源码入口](references/long-attention-cases.md)，覆盖分块、并行归约、KV布局、长度分派、Graph及生效验证。
+- [Python基准任务](assets/python-round-baseline.md)，包含原始12函数题、温度0/关闭思考设置及请求计时对齐方法。
+- [草稿接入与形状覆盖](references/case-v100-pi-dspine.md)，检查身份、桥接、分派、资源与生成续接。
 
 运行日志、账号、机器地址、权重与个人任务数据留在实际部署目录，不写入本技能。本包包含沿用原项目的 [MIT许可证](LICENSE)；引用或移植其他仓库代码时仍按其各自许可证处理。本次包内为指南和自制测试素材，不包含外部引擎代码。

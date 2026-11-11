@@ -4,22 +4,17 @@
 
 [English](README.md) | 简体中文
 
-**Frankenstein的核心是缝合：把不同仓库成熟、适用的实现组合起来，用必要的接口适配获得完整可用的部署。** Strata＋1Cat＋Basalt＋Radiance这样的组合体现了这条主线：按目标硬件、模型和瓶颈选择各家的部件，接通依赖，再验证整套收益。先找到它们具体快在哪里、为什么快，拉取相关源码，再把收益机制移植到目标硬件。没有V100适配就设计并写出SM70对应实现：能直接复用则复用，需要改写则完整改写。减少重复研发，不限制实现该机制所必需的工程。
+**Frankenstein的核心是缝合：把不同仓库成熟、适用的实现组合起来，用必要的接口适配获得完整可用的部署。** Strata＋1Cat＋Basalt＋Radiance这样的组合体现了这条主线：按目标硬件、模型和瓶颈选择各家的部件，接通依赖，再验证整套收益。先找到它们具体快在哪里、为什么快，拉取相关源码，再把收益机制移植到目标硬件。没有目标设备适配就设计并写出对应实现：能直接复用则复用，需要改写则完整改写。减少重复研发，不限制实现该机制所必需的工程。
 
 本技能让有后端工程能力的AI完成新部署，或继续改善已有部署的速度、缓存和实际任务表现。具体组合随任务选择，上述仓库名称不是所有机器必装的配方或性能结论。本项目提供Agent Skill指南，不附推理引擎、模型权重或账号凭据。
 
-作者从**2026年9月开始持续打磨这套Skill**，将本地模型部署实践中的测试、修复和优化经验逐步沉淀进技能。当前作者实测成果包括：
-
-- **4卡V100运行27B＋DSpine K7：** 温度0、关闭思考，单请求解码速度首轮峰值约522 tok/s；后续整轮补测约523 tok/s、13.57～13.77ms/轮。
-- **双2080Ti的IQ3优化路径：** 从早期约50ms/轮的功能部署，推进到后期Python常态21～22ms/轮、短时最低约18ms/轮、吞吐峰值220+ tok/s。
-
-成果背后的方法包括完整部署、传输与等待排查、专家供给、硬件算子适配、流水线和状态管理。峰值与常态分列，详细过程见[Python主案例](skills/local-llm-deployment-speedup/references/case-swift-iq3xxs-python.md)和[经验案例](skills/local-llm-deployment-speedup/references/experience-cases.md)。
-
-V100路线由作者通过**ChatGPT定时调研发现1cat更新和新草稿，再使用Codex实施适配与优化**。[V100完整案例](skills/local-llm-deployment-speedup/references/case-v100-pi-dspine.md)记录Pi投影融合、DSpine接入、K7/K8对照与缓存修复，并给出522短测的任务、token数和计时口径。
+作者从2026年9月开始持续打磨这套Skill，重点说明如何让AI调研、分析快因、缝合实现、减少执行等待与前缀重算，并用真实任务验收。
 
 作者推荐执行AI：**GPT6 ASTRA / KIMI K3.1 PRO / FABLE5**。这些是执行技能的AI建议，不是目标机器必须部署的模型，也不是API ID或公开性能排名。
 
 ## 使用入口
+
+第一次让AI做本地部署优化，先看[怎样让AI优化已经部署的本地模型](docs/ai-optimization-guide.zh-CN.md)：按提问、定位、改代码和真实任务验收串起执行路径，再由技能引导具体实施。
 
 让AI读取 [SKILL.md](skills/local-llm-deployment-speedup/SKILL.md)，按阶段读取相关参考。也可将整个 `skills/local-llm-deployment-speedup` 目录安装到宿主技能目录，保留 `references`、`assets`、`agents` 和 `LICENSE`，按宿主要求刷新。详见 [技能使用说明](skills/local-llm-deployment-speedup/README.md)。
 
@@ -39,7 +34,7 @@ V100路线由作者通过**ChatGPT定时调研发现1cat更新和新草稿，再
 2. 按 [六步调研](skills/local-llm-deployment-speedup/references/research-and-weekly.md) 查同/异配置、常用任务模型/量化/特别后训练、KV管理/快照/卸载、草稿及新草稿、内核与显卡专属算法，尽量整理ms；采用仓库点Star。
 3. **方案确认或已有自主实施委托 → 完整部署并核实生效**，包括草稿、KV/状态池、底座/内核、视觉及适用专家缓存。需要移植后端时先复用现成模块、补接口并验证，剩余缺口再局部开发；模块微测不能冒充完整组合的性能测试。
 4. **短任务基础ms**：温度0、零思考、视觉开启，细查全部传输/通信/等待和真实算子，必须验证短缓存续接。明确仅文本方案的视觉项不适用。
-5. 短的做好才做长上下文速度与缓存；注意力主导时按[长注意力专项](skills/local-llm-deployment-speedup/references/long-attention-optimization.md)处理分块、归约、KV读取和内核分派，并参考[五个仓库实现案例](skills/local-llm-deployment-speedup/references/long-attention-cases.md)；质量问题单独记录。
+5. 短的做好才做长上下文速度与缓存；注意力主导时按[长注意力专项](skills/local-llm-deployment-speedup/references/long-attention-optimization.md)处理分块、归约、KV读取和内核分派，并参考[五个仓库源码入口](skills/local-llm-deployment-speedup/references/long-attention-cases.md)；质量问题单独记录。
 6. 常用温度建议0.6、高思考、操作者指定任务；复验长思考前缀。
 7. 组合确定后，在指定任务内调K，不追接受率、不宣传全局最佳K。
 8. 最终与参考仓库对标，集中做正式A/B。
@@ -48,15 +43,15 @@ V100路线由作者通过**ChatGPT定时调研发现1cat更新和新草稿，再
 
 支持[自动调研、优化与跨轮接续](skills/local-llm-deployment-speedup/references/autonomous-optimization.md)：在已有授权内自行筛选候选，连续实施、验证并写回原部署记录，不逐阶段询问是否继续；也可选择仅增量调研。频率遵从用户约定，创建定时任务需另有明确指令，更新技能不会启动任务。
 
-[跨仓库组合](skills/local-llm-deployment-speedup/references/cross-repository-composition.md)是核心方法：保留适用底座，分别借鉴其他仓库的内核、通信、注意力、视觉和状态机制，不只选择整仓库跑分最高者。包含NInfer＋1Cat视觉、1Cat通信/计算机制、Strata量化内核与SM75适配，以及移植后无收益撤回的案例。
+[跨仓库组合](skills/local-llm-deployment-speedup/references/cross-repository-composition.md)是核心方法：保留适用底座，分别借鉴其他仓库的内核、通信、注意力、视觉和状态机制，不只选择整仓库跑分最高者。按视觉、通信、量化计算、状态与调度部件说明接入方式和收益裁决。
 
 [GitHub源码对照](skills/local-llm-deployment-speedup/references/github-runtime-comparison.md)将当前瓶颈与固定版本代码、分派条件及本地补丁逐项比较，筛出已有、未生效、可移植或不适用的候选；自动模式在授权内接续实施。
 
-[毫秒实测补充](skills/local-llm-deployment-speedup/references/millisecond-case-lessons.md)展开请求选项导致的回退、CPU公共准备、小回传阻塞、真实shape覆盖、融合的尺度/舍入、事件与缓冲所有权，以及profiler干扰和无收益候选处理。
+[毫秒实施细节](skills/local-llm-deployment-speedup/references/millisecond-case-lessons.md)展开请求选项导致的回退、CPU公共准备、小回传阻塞、真实shape覆盖、融合的尺度/舍入、事件与缓冲所有权，以及profiler干扰和无收益候选处理。
 
 前期仍做必要计时反馈和正确性检查，但不每个候选都跑统计A/B或全套长任务。混合卸载部署分别统计显存专家缓存和前缀KV/状态缓存，关注暴露传输等待与资源竞争。
 
-缓存故障按[专项排查](skills/local-llm-deployment-speedup/references/cache-invalidation.md)和[十二组历史案例](skills/local-llm-deployment-speedup/references/cache-failure-cases.md)定位。长思考模型另有[思考内容与KV快照专项](skills/local-llm-deployment-speedup/references/reasoning-prefix-cache.md)：同时核对思考保存、原始token、KV/GDN/滑窗共同边界、依赖页与回收，避免只看重复prompt命中。
+缓存故障按[专项排查](skills/local-llm-deployment-speedup/references/cache-invalidation.md)和[十二类故障处理](skills/local-llm-deployment-speedup/references/cache-failure-cases.md)定位。长思考模型另有[思考内容与KV快照专项](skills/local-llm-deployment-speedup/references/reasoning-prefix-cache.md)：同时核对思考保存、原始token、KV/GDN/滑窗共同边界、依赖页与回收，避免只看重复prompt命中。
 
 ## 适用与接续
 

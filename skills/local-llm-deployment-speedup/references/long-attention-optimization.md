@@ -2,7 +2,7 @@
 
 在阶段5发现decode随历史增长变慢，或用户明确要求修复长上下文性能时读本章。沿用已有部署、短阶段成果和授权，不重新走完整流程。这里优化全注意力的执行成本；前缀复用、新输入prefill、Hybrid状态恢复仍按[上下文与缓存](context-and-cache.md)分别处理。
 
-按需跳转：先定位 → 分块与归约 → KV读取 → 分派与Graph → 生效和验收。具体仓库、文件、符号与历史实测见[仓库实现案例](long-attention-cases.md)。没有目标机时可以完成源码方案，不能声称已提速。
+按需跳转：先定位 → 分块与归约 → KV读取 → 分派与Graph → 生效和验收。具体仓库、文件、符号和适用条件见[源码入口](long-attention-cases.md)。没有目标机时可以完成源码方案，不能声称已提速。
 
 ## 1. 找到随长度增长的那部分成本
 
@@ -41,7 +41,7 @@
 
 保持当前累加精度与必要补偿；调整归约顺序可能改变浮点结果，不能凭文本看起来相同认定逐位等价。用相同Q/K/V和mask对可信参考比较绝对/RMS误差与有限值，阈值按原实现精度及任务要求选择。长序列参考太贵时抽取完整可见历史上的少量query/head，不偷偷截断历史后宣称长注意力正确。
 
-可直接研究：FlashInfer的`SingleDecodeWithKVCacheDispatched`及`MergeStates`；llama.cpp的`launch_fattn`、`flash_attn_combine_results`；vLLM历史V1/V2分派。对应版本链接见[案例B至D](long-attention-cases.md)。
+可直接研究：FlashInfer的`SingleDecodeWithKVCacheDispatched`及`MergeStates`；llama.cpp的`launch_fattn`、`flash_attn_combine_results`；vLLM历史V1/V2分派。对应版本链接见[源码条目](long-attention-cases.md)。
 
 ## 4. KV读取布局、分页与GQA复用
 

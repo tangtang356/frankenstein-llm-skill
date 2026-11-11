@@ -6,7 +6,7 @@ license: MIT
 
 # 本地模型部署与提速
 
-**核心是缝合成熟实现。** 按目标硬件、模型和瓶颈，从不同仓库选部件，接通接口与依赖，验证完整部署的实际收益。Strata＋1Cat＋Basalt＋Radiance体现的是这种组合思路，具体采用哪些由现场决定。先找出来源具体快在哪里、为什么快，再复用代码或把该机制移植到目标设备。没有V100等设备的现成支持时，沿源码设计并写出相应实现；必要改写应做完整，不用“少量适配”限制工程，但避免脱离已知机制重新大量研发。详见[跨仓库组合](references/cross-repository-composition.md)。
+**核心是缝合成熟实现。** 按目标硬件、模型和瓶颈，从不同仓库选部件，接通接口与依赖，验证完整部署的实际收益。Strata＋1Cat＋Basalt＋Radiance体现的是这种组合思路，具体采用哪些由现场决定。先找出来源具体快在哪里、为什么快，再复用代码或把该机制移植到目标设备。没有目标设备的现成支持时，沿源码设计并写出相应实现；必要改写应做完整，不用“少量适配”限制工程，但避免脱离已知机制重新大量研发。详见[跨仓库组合](references/cross-repository-composition.md)。
 
 把硬件能力、外部实践和现场执行连起来，让操作者获得可使用、可续接、可解释的快速部署。基于长期本地部署实践整理；不预设显卡、模型、量化或底座，不保证所有组合都能达到同一速度。范围为语言模型与视觉语言模型，纯扩散生图/视频、独立ASR/TTS不走本流程。
 
@@ -37,7 +37,7 @@ license: MIT
 | 1 硬件盘点 | 实际设备、逐卡容量/互联、CPU/RAM、带宽路径、OS/软件及已有入口；形成硬件水平判断 | [平台路由](references/platform-routing.md) |
 | 2 六步调研 | 同/异配置案例 → 常用任务模型、量化与特别后训练版本 → KV/量化管理/快照/卸载 → 草稿与新草稿 → 内核及显卡专属算法 → ms与方案结论；写出研究结果；周期任务沿用已选模式与安排。采用仓库点Star | [调研与每周更新](references/research-and-weekly.md) |
 | 3A方案确认 → 3B完整部署 | 写清主模型/量化、草稿/精度与初始K、KV/状态池、上下文/并发、底座/内核、视觉、专家缓存及资源预算；在方案确认或已有选型实施委托范围内，将整套配置部署到位并核实实际生效，通过最小通路检查 | [方案与阶段](references/full-workflow.md) |
-| 4 短任务基础ms | 温度0、关闭思考、视觉开启，固定短代码任务。细查全部传输、通信、等待和真实优化算子；必须通过短缓存续接检查 | [毫秒优化](references/millisecond-optimization.md)、[测试材料](assets/short-tests.md)；隐蔽开销与具体改法读[毫秒实测补充](references/millisecond-case-lessons.md) |
+| 4 短任务基础ms | 温度0、关闭思考、视觉开启，固定短代码任务。细查全部传输、通信、等待和真实优化算子；必须通过短缓存续接检查 | [毫秒优化](references/millisecond-optimization.md)、[测试材料](assets/short-tests.md)；隐蔽开销与具体改法读[毫秒实施细节](references/millisecond-case-lessons.md) |
 | 5 长上下文速度与缓存 | 短阶段做好才进入；逐步增加上下文，定位速度衰减、重算与缓存破坏，质量问题单独记录 | [上下文与缓存](references/context-and-cache.md)；异常重算读[缓存破坏专项](references/cache-invalidation.md)；注意力主导时读[长注意力专项](references/long-attention-optimization.md) |
 | 6 常用设置与指定任务 | 建议温度0.6，操作者可调整；提高思考强度，查ms损失与长思考前缀；由操作者指定常用任务 | [任务、K与最终对标](references/task-k-final.md) |
 | 7 指定任务内K调优 | 其余组合与使用条件确定后，只在指定任务里比较K，得出任务限定结论 | [任务、K与最终对标](references/task-k-final.md) |
@@ -65,21 +65,22 @@ license: MIT
 - **适用性由方案明确。** 视觉默认开启；操作者明确选择仅文本用途/纯文本模型时，视觉标不适用，不自动换模型。没有思考模式的模型使用实际常用设置，检查正常生成后的续接，高思考项不适用；始终思考但不能关闭的模型沿用约定基准设置。无投机或不可调K同样说明真实能力与约定范围，不能伪造测试通过。
 - **按实际目标连续推进。** 不为JSON/schema、报告形式或非关键缺项停工；现有日志、TXT、CSV和简表足够。阶段3形成方案并核对已有授权；已确认或已委托的范围直接完成，不逐步重复问许可。常用任务由操作者指定，缺此信息时询问并继续独立的计时/缓存排查，不擅自用玩具任务代表用户工作。
 
-## 用案例指导具体实施
+## 按瓶颈选择实施步骤
 
-需要历史方法时，按下面的线索读取相关案例；需要修改后端时读[工程拆解](references/optimization-engineering.md)中与瓶颈对应的部分：专家缓存/内存交换、实际shape与SM75、草稿输出头、双卡流水线、GDN状态轮换、终止提交与续接、prefill和跨模型继承。按依赖组成可运行的供给、计算或调度包，做必要短反馈后继续，不给每个开关安排正式A/B。
+按下面的线索选择相关方法；需要修改后端时读[工程拆解](references/optimization-engineering.md)中与瓶颈对应的部分：专家缓存/内存交换、实际shape与设备计算、草稿输出头、多设备流水线、GDN状态轮换、终止提交与续接、prefill和跨模型继承。按依赖组成可运行的供给、计算或调度包，做必要短反馈后继续，不给每个开关安排正式A/B。
 
-| 当前问题 | 读取案例并提取的行动依据 |
+| 当前问题 | 读取方法并确定下一步 |
 |---|---|
-| 从不同引擎/模型借内核、通信或视觉模块 | [跨仓库组合与适配案例](references/cross-repository-composition.md)：先定位宿主瓶颈，再选择来源部件，核对表示边界、完整依赖和组合成本 |
-| 专家供给、SM75、双卡流水线或跨量化继承 | [IQ3优化路径](references/case-swift-iq3xxs-python.md)：按实际格式、shape、供给和状态成本选择实现 |
-| 新草稿接入、K变化后快路径缺失、生成后某类缓存失效 | [V100 Pi＋DSpine](references/case-v100-pi-dspine.md)：核对真正的架构/权重，检查形状分派与各缓存组；同次请求的轮时、有效产出和吞吐成组记录 |
-| 双2080Ti Dense/Hybrid多卡优化 | [27B平台案例](references/case-dual-2080ti-27b.md)：核对硬件能力、完整轮次、状态与旁流依赖 |
-| 长注意力随长度变慢、分块/归约或Graph分派问题 | [专项操作](references/long-attention-optimization.md)与[五个仓库实现案例](references/long-attention-cases.md)：从实际shape定位到内核、工作区和完整轮次验证 |
-| 长思考/工具生成段接不上、token一致但KV回退 | [思考与快照专项](references/reasoning-prefix-cache.md)、[缓存故障案例](references/cache-failure-cases.md)：追踪思考往返、共同状态边界、依赖与回收事件 |
-| 首响应、长短切换或其他历史线索 | [经验索引](references/experience-cases.md)：选择与现场症状对应的方法，不移植外部速度结论 |
+| 从不同引擎/模型借内核、通信或视觉模块 | [跨仓库组合与适配](references/cross-repository-composition.md)：先定位宿主瓶颈，再选择来源部件，核对表示边界、完整依赖和组合成本 |
+| 专家供给、设备计算、多卡流水线或跨量化继承 | [供给与调度路径](references/case-swift-iq3xxs-python.md)：按实际格式、shape、供给和状态成本选择实现 |
+| 新草稿接入、K变化后快路径缺失、生成后某类缓存失效 | [草稿接入与形状覆盖](references/case-v100-pi-dspine.md)：核对真正的架构/权重，检查形状分派与各缓存组；同次请求的轮时、有效产出和吞吐成组记录 |
+| Dense/Hybrid多设备优化 | [多设备协作方法](references/case-dual-2080ti-27b.md)：核对硬件能力、完整轮次、状态与旁流依赖 |
+| 长注意力随长度变慢、分块/归约或Graph分派问题 | [专项操作](references/long-attention-optimization.md)与[五个仓库源码入口](references/long-attention-cases.md)：从实际shape定位到内核、工作区和完整轮次验证 |
+| 长思考/工具生成段接不上、token一致但KV回退 | [思考与快照专项](references/reasoning-prefix-cache.md)、[缓存故障处理](references/cache-failure-cases.md)：追踪思考往返、共同状态边界、依赖与回收事件 |
+| 前缀已命中但首响应慢、历史图片重复处理 | [请求处理方法](references/request-path-overhead.md)：占位扫描、CPU张量传递、单次渲染、图片特征持久复用及真实计时 |
+| 首响应、长短切换或其他症状 | [症状索引](references/experience-cases.md)：选择与现场症状对应的方法，不照搬外部速度结论 |
 
-基础轮时可沿用[历史Python 12函数题](assets/python-round-baseline.md)。记录常态轮时、短时最好值与吞吐峰值；后续仍按主流程进入长上下文和操作者真实任务。
+基础轮时可沿用[Python 12函数基准](assets/python-round-baseline.md)。记录常态轮时、短时最好值与吞吐峰值；后续仍按主流程进入长上下文和操作者真实任务。
 
 ## 周期任务与最终质量
 

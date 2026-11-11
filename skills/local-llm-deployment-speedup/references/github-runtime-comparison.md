@@ -18,7 +18,7 @@
 
 保留仓库、完整commit SHA、关键文件/函数和必要行号，公开证据链接固定版本；记录核对日期。对同一仓库/共享历史的fork可比较上次读取commit到本次head的相关文件变化；跨无共同历史的引擎按机制和接口比较，不硬做git commit差异。PR标题、关闭状态、release说明仅作线索，核对变更是否真的进入当前阅读版本，以及后续修正/撤回和相应测试。
 
-整仓库排名不决定组件价值：可以保留当前运行器，从另一仓库取视觉塔、collective、量化计算、注意力或状态机制。跨仓库候选写清宿主保留什么、来源提供什么，以及直接移植还是机制改写；具体接法与历史成功/撤回案例见[跨仓库组合](cross-repository-composition.md)。不要求来源仓库先完整支持当前模型。
+整仓库排名不决定组件价值：可以保留当前运行器，从另一仓库取视觉塔、collective、量化计算、注意力或状态机制。跨仓库候选写清宿主保留什么、来源提供什么，以及直接移植还是机制改写；具体接法与保留/撤回方法见[跨仓库组合](cross-repository-composition.md)。不要求来源仓库先完整支持当前模型。
 
 对有速度优势的候选，先按[快因分析](cross-repository-composition.md#找到快的原因再决定如何移植)区分少读写、少计算、更高利用率、重叠等待或缓存复用；落到代码和本机成本后，再设计移植。没有目标设备适配时拆解算法/布局与硬件专用实现，写出本机替代路径，不能仅按支持列表筛掉。
 
@@ -64,4 +64,4 @@
 
 **vLLM：Graph分派不是只有开/关。** 在`3c5cdcfee76bbd4fd26a77fd2b97520ecaa78e38`的[CudaGraphManager.dispatch](https://github.com/vllm-project/vllm/blob/3c5cdcfee76bbd4fd26a77fd2b97520ecaa78e38/vllm/v1/worker/gpu/cudagraph_utils.py#L558)，按实际请求、token、uniform query及其他兼容条件选择已有图；不匹配才返回NONE。输入token可能已补齐。由此可提出检查“真实有效行数与图执行尺寸、padding及捕获集合”的候选，尚不能说某台机器有同样浪费。旧`vllm/v1/cudagraph_dispatcher.py`在该快照404，按`CudaGraphManager`重新搜索找到上述入口，不能沿用失效路径断言能力消失。
 
-**FlashInfer：性能分区与正确性一起看。** `cfa0318a1316e8838bdee32c2a2014e22001dabe`的[scheduler.cuh](https://github.com/flashinfer-ai/flashinfer/blob/cfa0318a1316e8838bdee32c2a2014e22001dabe/include/flashinfer/attention/scheduler.cuh#L909)在Graph计划中分配并填充有效块mask，防止补齐CTA读取未初始化的计划尾部；不能只复制缩减grid的想法而漏掉mask/plan约束。[Issue 4002](https://github.com/flashinfer-ai/flashinfer/issues/4002)提供特定FA2路径和历史版本的复现背景；本次读到的代码已有相关保护，不据旧报告宣称当前版本仍缺mask，也不把H100复现的数字外推V100/2080Ti。
+**FlashInfer：性能分区与正确性一起看。** `cfa0318a1316e8838bdee32c2a2014e22001dabe`的[scheduler.cuh](https://github.com/flashinfer-ai/flashinfer/blob/cfa0318a1316e8838bdee32c2a2014e22001dabe/include/flashinfer/attention/scheduler.cuh#L909)在Graph计划中分配并填充有效块mask，防止补齐CTA读取未初始化的计划尾部；不能只复制缩减grid的想法而漏掉mask/plan约束。[Issue 4002](https://github.com/flashinfer-ai/flashinfer/issues/4002)提供特定FA2路径和历史版本的复现背景；本次读到的代码已有相关保护，不据旧报告宣称当前版本仍缺mask，也不把其他硬件的复现数字外推本机。

@@ -1,16 +1,16 @@
 # Python基础轮时测试题
 
-用于短任务基础优化或复现案例后期的12函数题。它直接生成可检查的Python代码，便于把功能和完整轮时一起看。已有更适合的固定Python任务可以继续使用，无需换题重跑历史。
+用于短任务基础优化的12函数题。它直接生成可检查的Python代码，便于把功能和完整轮时一起看。已有更适合的固定Python任务可以继续使用，无需为统一题目重跑已有效的结果。
 
 ## 请求设置
 
-温度0，关闭思考；新请求只带一条user消息，不附历史或工具。历史Strata接口使用`chat_template_kwargs.enable_thinking=false`、`stream=true`、`max_tokens=3000`，让模型自然结束；不是要求生成3000token。其他后端使用其实际支持的等价字段。
+温度0，关闭思考；新请求只带一条user消息，不附历史或工具。支持相应字段的接口可使用`chat_template_kwargs.enable_thinking=false`、`stream=true`、`max_tokens=3000`，让模型自然结束；不是要求生成3000token。其他后端使用其实际支持的等价字段。
 
-**常规阶段4保留确认方案中的检查点和缓存设置**，完整轮时与续接检查对应同一部署组合。只有专门复现历史隔离测速时才使用`strata_checkpoint=false`，该读数单列为历史条件，不代替正式检查点开启时的成绩。
+**常规阶段4保留确认方案中的检查点和缓存设置**，完整轮时与续接检查对应同一部署组合。专门隔离状态保存成本的诊断结果单列，不能作为关闭必要检查点的正式部署成绩。
 
-题目在历史模板下约382输入token。先完成必要预热，再按当前阶段做少量相同独立请求。正式比较时可沿用1次预热、5次记录；不把5次变成每次小改的固定门槛。专家缓存暖态和前缀复用分开记录，基础独立请求结束后另做实际生成内容续接。
+输入token数按本次实际模板和tokenizer记录。先完成必要预热，再按当前阶段做少量相同独立请求。正式比较时可沿用1次预热、5次记录；不把5次变成每次小改的固定门槛。专家缓存暖态和前缀复用分开记录，基础独立请求结束后另做实际生成内容续接。
 
-## 原题
+## 题目
 
 ```text
 Write a Python module implementing exactly these pure functions. Return only Python code, no markdown, explanations, imports, or tests. Use straightforward readable loops and conditionals. Inputs meet the stated types. Do not mutate inputs.
