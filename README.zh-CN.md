@@ -46,6 +46,8 @@ V100路线由作者通过**ChatGPT定时调研发现1cat更新和新草稿，再
 
 支持[自动调研、优化与跨轮接续](skills/local-llm-deployment-speedup/references/autonomous-optimization.md)：在已有授权内自行筛选候选，连续实施、验证并写回原部署记录，不逐阶段询问是否继续；也可选择仅增量调研。频率遵从用户约定，创建定时任务需另有明确指令，更新技能不会启动任务。
 
+[跨仓库组合](skills/local-llm-deployment-speedup/references/cross-repository-composition.md)是核心方法：保留适用底座，分别借鉴其他仓库的内核、通信、注意力、视觉和状态机制，不只选择整仓库跑分最高者。包含NInfer＋1Cat视觉、1Cat通信/计算机制、Strata量化内核与SM75适配，以及移植后无收益撤回的案例。
+
 [GitHub源码对照](skills/local-llm-deployment-speedup/references/github-runtime-comparison.md)将当前瓶颈与固定版本代码、分派条件及本地补丁逐项比较，筛出已有、未生效、可移植或不适用的候选；自动模式在授权内接续实施。
 
 [毫秒实测补充](skills/local-llm-deployment-speedup/references/millisecond-case-lessons.md)展开请求选项导致的回退、CPU公共准备、小回传阻塞、真实shape覆盖、融合的尺度/舍入、事件与缓冲所有权，以及profiler干扰和无收益候选处理。
