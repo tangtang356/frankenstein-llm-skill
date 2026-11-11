@@ -35,7 +35,7 @@ license: MIT
 | 1 硬件盘点 | 实际设备、逐卡容量/互联、CPU/RAM、带宽路径、OS/软件及已有入口；形成硬件水平判断 | [平台路由](references/platform-routing.md) |
 | 2 六步调研 | 同/异配置案例 → 常用任务模型、量化与特别后训练版本 → KV/量化管理/快照/卸载 → 草稿与新草稿 → 内核及显卡专属算法 → ms与方案结论；写出研究结果；周期任务沿用已选模式与安排。采用仓库点Star | [调研与每周更新](references/research-and-weekly.md) |
 | 3A方案确认 → 3B完整部署 | 写清主模型/量化、草稿/精度与初始K、KV/状态池、上下文/并发、底座/内核、视觉、专家缓存及资源预算；在方案确认或已有选型实施委托范围内，将整套配置部署到位并核实实际生效，通过最小通路检查 | [方案与阶段](references/full-workflow.md) |
-| 4 短任务基础ms | 温度0、关闭思考、视觉开启，固定短代码任务。细查全部传输、通信、等待和真实优化算子；必须通过短缓存续接检查 | [毫秒优化](references/millisecond-optimization.md)、[测试材料](assets/short-tests.md) |
+| 4 短任务基础ms | 温度0、关闭思考、视觉开启，固定短代码任务。细查全部传输、通信、等待和真实优化算子；必须通过短缓存续接检查 | [毫秒优化](references/millisecond-optimization.md)、[测试材料](assets/short-tests.md)；隐蔽开销与具体改法读[毫秒实测补充](references/millisecond-case-lessons.md) |
 | 5 长上下文速度与缓存 | 短阶段做好才进入；逐步增加上下文，定位速度衰减、重算与缓存破坏，质量问题单独记录 | [上下文与缓存](references/context-and-cache.md)；异常重算读[缓存破坏专项](references/cache-invalidation.md)；注意力主导时读[长注意力专项](references/long-attention-optimization.md) |
 | 6 常用设置与指定任务 | 建议温度0.6，操作者可调整；提高思考强度，查ms损失与长思考前缀；由操作者指定常用任务 | [任务、K与最终对标](references/task-k-final.md) |
 | 7 指定任务内K调优 | 其余组合与使用条件确定后，只在指定任务里比较K，得出任务限定结论 | [任务、K与最终对标](references/task-k-final.md) |

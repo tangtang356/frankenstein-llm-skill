@@ -46,6 +46,8 @@ V100路线由作者通过**ChatGPT定时调研发现1cat更新和新草稿，再
 
 支持[自动调研、优化与跨轮接续](skills/local-llm-deployment-speedup/references/autonomous-optimization.md)：在已有授权内自行筛选候选，连续实施、验证并写回原部署记录，不逐阶段询问是否继续；也可选择仅增量调研。频率遵从用户约定，创建定时任务需另有明确指令，更新技能不会启动任务。
 
+[毫秒实测补充](skills/local-llm-deployment-speedup/references/millisecond-case-lessons.md)展开请求选项导致的回退、CPU公共准备、小回传阻塞、真实shape覆盖、融合的尺度/舍入、事件与缓冲所有权，以及profiler干扰和无收益候选处理。
+
 前期仍做必要计时反馈和正确性检查，但不每个候选都跑统计A/B或全套长任务。混合卸载部署分别统计显存专家缓存和前缀KV/状态缓存，关注暴露传输等待与资源竞争。
 
 缓存故障按[专项排查](skills/local-llm-deployment-speedup/references/cache-invalidation.md)和[十二组历史案例](skills/local-llm-deployment-speedup/references/cache-failure-cases.md)定位。长思考模型另有[思考内容与KV快照专项](skills/local-llm-deployment-speedup/references/reasoning-prefix-cache.md)：同时核对思考保存、原始token、KV/GDN/滑窗共同边界、依赖页与回收，避免只看重复prompt命中。

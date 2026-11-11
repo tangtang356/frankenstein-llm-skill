@@ -59,6 +59,7 @@ The author began refining this Skill in September 2026, drawing on hands-on loca
 - [Dual 2080 Ti: expert supply, kernels, pipeline, and state management](skills/local-llm-deployment-speedup/references/case-swift-iq3xxs-python.md)
 - [Cache failures and fixes](skills/local-llm-deployment-speedup/references/cache-failure-cases.md) and [long-reasoning prefix/KV-state diagnosis](skills/local-llm-deployment-speedup/references/reasoning-prefix-cache.md) — token round trips, tools, images, hybrid checkpoints, dependency lifetimes, and eviction (Chinese).
 - [Long-context attention: implementation workflow and five source-level repository cases](skills/local-llm-deployment-speedup/references/long-attention-optimization.md) — split-KV, reduction, KV layout, dispatch, CUDA Graphs, and runtime verification (Chinese).
+- [Millisecond optimization lessons](skills/local-llm-deployment-speedup/references/millisecond-case-lessons.md) — request-path fallbacks, host preparation, tiny blocking transfers, shape coverage, exact fusion, buffer ownership, profiler effects, and rejected candidates (Chinese).
 - [Implementation methods organized by bottleneck](skills/local-llm-deployment-speedup/references/optimization-engineering.md)
 
 Private runtime logs are not included. The cases explain conditions, measurements, and limitations; this repository is not a publicly reproducible benchmark suite. The V100 short-test case reports syntax checks rather than executed-function correctness, and does not establish full application acceptance.
