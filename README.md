@@ -77,7 +77,7 @@ The guides distinguish observed behavior from unavailable internal metrics. An i
 
 For a useful issue, include hardware, model and quantization, backend version, workload, timing definition, cache conditions, and the observed result. Use public or redacted examples. Reports from additional hardware and execution agents are especially valuable.
 
-Optional weekly research can track relevant models, drafts, kernels, and cache improvements. It is enabled only when requested and does not automatically change deployments.
+Choose research-only updates or [authorized autonomous research and optimization](skills/local-llm-deployment-speedup/references/autonomous-optimization.md). In autonomous mode, the agent resumes deployment notes, selects candidates, implements and validates changes, and records what to do next without asking again for actions already authorized. Scheduling requires a separate explicit request; installing or updating this skill starts neither a scheduled task nor an optimization run.
 
 ## License
 
