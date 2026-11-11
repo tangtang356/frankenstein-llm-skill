@@ -1,0 +1,33 @@
+# 本地模型部署与提速 Skill
+
+面向让AI协助部署本地语言模型/视觉语言模型的使用者。覆盖GPU、CPU与专家卸载混合部署，核心是先把短任务的完整轮次毫秒、传输和等待做好，再验证长上下文、前缀复用及真正的常用任务。
+
+本技能从2026年9月开始，在作者自己的电脑和服务器上持续实测、修复和迭代。作者实测成果包括**4卡V100运行27B，温度0、关闭思考，单请求解码速度峰值约522 tok/s**，以及双2080Ti的IQ3优化路径。V100路线由ChatGPT定时调研发现1cat更新和新草稿，再由作者使用Codex实施适配与优化；方法按目标硬件和实际版本适配。
+
+V100最终草稿为**DSpine K7 NVFP4**；独立整轮补测为13.57～13.77ms/轮、最高约523 tok/s，与首轮522分别记录。
+
+作者推荐由 **GPT6 ASTRA / KIMI K3.1 PRO / FABLE5** 等后端工程能力强的AI执行。执行者需要目标机终端/SSH、文件和代码/网页读取能力；本包不提供推理引擎、模型权重或账号凭据。推荐名称按作者写法保留，不是API ID或公开性能排名。
+
+## 使用
+
+把整个`local-llm-deployment-speedup`文件夹安装到所用AI工具的技能目录。按[Codex官方说明](https://learn.chatgpt.com/docs/build-skills)，用户级可放到`~/.agents/skills/local-llm-deployment-speedup`，项目级可放到项目的`.agents/skills/local-llm-deployment-speedup`；没有出现时重开会话。旧环境若已从`~/.codex/skills`加载，可沿用其有效配置，避免在多个扫描目录安装同名副本。其他工具按其技能加载方式读取 [SKILL.md](SKILL.md)。不要只复制入口而漏掉references和assets。
+
+示例请求：
+
+> 使用这个技能检查我的目标电脑。我希望部署本地模型，用于……。先盘点硬件、调研案例，给出主模型、草稿、精度、KV和底座方案，与我讨论确认后再实施。后续按技能顺序优化，我会提供常用任务。
+
+AI应先和你讨论完整方案；确认后先把主模型、草稿、KV/状态池、底座内核、所需视觉与专家缓存完整部署并核实生效；之后才开始短ms与传输等待，再长上下文/缓存、常用温度/高思考和你指定的任务，最后在该任务下调K并正式对标。Prefill只在需要时最后处理，始终不能破坏缓存。采用的GitHub仓库应点Star并保留来源。
+
+调研按 [六步](references/research-and-weekly.md) 覆盖任务模型/量化/特别后训练、KV管理/快照/卸载、新草稿、内核和显卡专属算法，并尽量整理有依据的ms。建议每周五增量调研，是否启用由操作者选择。全部优化后必须完成 [最终质量检查](references/final-quality.md)。
+
+## 包内容与边界
+
+- [主流程](SKILL.md) 与按阶段读取的参考文件。
+- [短代码/缓存/视觉样例](assets/short-tests.md)，包含本包自制的两张小PNG；不代表真实任务或全面质量验收。
+- [历史经验](references/experience-cases.md)，明确区别私人历史记录、公开方法与本机实测。
+- [主案例：IQ3_XXS → IQ3_S → IQ3_XXS](references/case-swift-iq3xxs-python.md)，按Python单项展示每一步的优化方法与数值，以及后期温度0、关闭思考时的常态和峰值表现。
+- [优化工程拆解](references/optimization-engineering.md)，按瓶颈讲解专家供给组合、SM75适配、双卡流水线、状态轮换、续接和跨模型继承。
+- [历史Python测试题](assets/python-round-baseline.md)，包含原始12函数题、温度0/关闭思考设置及请求计时对齐方法。
+- [V100 Pi与DSpine案例](references/case-v100-pi-dspine.md)，包含定时调研到Codex优化的路径、K7/K8选择及单请求522 tok/s的具体测量。
+
+运行日志、账号、机器地址、权重与个人任务数据留在实际部署目录，不写入本技能。本包包含沿用原项目的 [MIT许可证](LICENSE)；引用或移植其他仓库代码时仍按其各自许可证处理。本次包内为指南和自制测试素材，不包含外部引擎代码。

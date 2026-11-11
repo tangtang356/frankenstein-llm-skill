@@ -1,0 +1,21 @@
+# Local credentials and environments
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.venv/
+__pycache__/
+
+# Keep private experiments and model assets out of this instruction repository
+/models/
+/runs/
+/cache/
+*.safetensors
+*.gguf
+*.log
+*.zip
+
+# OS metadata
+.DS_Store
+Thumbs.db
