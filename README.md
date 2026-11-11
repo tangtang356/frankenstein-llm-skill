@@ -48,7 +48,7 @@ The agent checks complete execution costs, including transfers, synchronization,
 
 ## Engineering cases
 
-Developed through the author's deployment work since September 2026. These are historical results from particular configurations, not speed guarantees for other systems.
+The author began refining this Skill in September 2026, drawing on hands-on local model deployment work. These are historical results from particular configurations, not speed guarantees for other systems.
 
 | Case | Reported result | Scope |
 |---|---|---|
@@ -57,6 +57,7 @@ Developed through the author's deployment work since September 2026. These are h
 
 - [V100: research, DSpine integration, runtime optimization, and cache repair](skills/local-llm-deployment-speedup/references/case-v100-pi-dspine.md)
 - [Dual 2080 Ti: expert supply, kernels, pipeline, and state management](skills/local-llm-deployment-speedup/references/case-swift-iq3xxs-python.md)
+- [Cache failures and fixes](skills/local-llm-deployment-speedup/references/cache-failure-cases.md) and [long-reasoning prefix/KV-state diagnosis](skills/local-llm-deployment-speedup/references/reasoning-prefix-cache.md) — token round trips, tools, images, hybrid checkpoints, dependency lifetimes, and eviction (Chinese).
 - [Long-context attention: implementation workflow and five source-level repository cases](skills/local-llm-deployment-speedup/references/long-attention-optimization.md) — split-KV, reduction, KV layout, dispatch, CUDA Graphs, and runtime verification (Chinese).
 - [Implementation methods organized by bottleneck](skills/local-llm-deployment-speedup/references/optimization-engineering.md)
 
