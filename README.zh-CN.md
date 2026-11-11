@@ -1,5 +1,7 @@
 # Frankenstein · 本地模型部署与持续优化
 
+![Frankenstein — Deploy / Optimize / Resume](docs/images/hero.png)
+
 [English](README.md) | 简体中文
 
 让有后端工程能力的AI，根据真实硬件与原始案例从零部署本地模型，或在已有部署上继续优化速度、缓存和实际任务表现。本项目提供Agent Skill指南，不附推理引擎、模型权重或账号凭据。
@@ -28,6 +30,8 @@ V100路线由作者通过**ChatGPT定时调研发现1cat更新和新草稿，再
 > 请用这个技能继续优化我在【目录或主机】上的现有模型。先读部署记录并核对实际服务，保留已有有效补丁和我的配置，定位【解码慢／首响应慢／缓存丢失】的原因，完成相关改进并验证受影响部分，不重下权重、不重跑无关阶段。
 
 ## 顺序
+
+![两条入口：新电脑先盘点部署，已有服务保留成果并定位瓶颈，再完成相关优化与验收。](docs/images/workflow-zh.svg)
 
 1. 硬件盘点与使用目标。
 2. 按 [六步调研](skills/local-llm-deployment-speedup/references/research-and-weekly.md) 查同/异配置、常用任务模型/量化/特别后训练、KV管理/快照/卸载、草稿及新草稿、内核与显卡专属算法，尽量整理ms；采用仓库点Star。

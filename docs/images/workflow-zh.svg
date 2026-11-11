@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+<title id="title">从你的当前进度开始</title>
+<desc id="desc">新部署与已有部署，都能接着推进 单项修复只走相关路径；已有成果复用；冷输入提速按需开展。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#d2f642"/></marker></defs>
+<rect width="1280" height="640" rx="24" fill="#131713"/>
+<g fill="none" stroke="#252e24" stroke-width="1"><path d="M0 120H1280M0 580H1280M40 0V640M1240 0V640"/></g>
+<g font-family="Segoe UI, Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif">
+<text x="48" y="62" font-size="34" font-weight="750" fill="#f6f4e8">从你的当前进度开始</text>
+<text x="48" y="99" font-size="21" font-weight="400" fill="#b6c0b1">新部署与已有部署，都能接着推进</text>
+<rect x="48" y="149" width="574" height="152" rx="15" fill="#20281e" stroke="#536338"/>
+<rect x="48" y="149" width="6" height="152" rx="3" fill="#d2f642"/>
+<text x="74" y="188" font-size="25" font-weight="700" fill="#d2f642">新电脑 / 新部署</text>
+<text x="74" y="232" font-size="24" font-weight="600" fill="#f6f4e8">盘点硬件与用途</text>
+<text x="74" y="269" font-size="21" font-weight="400" fill="#c4cdbc">调研方案 → 确认 → 完整部署</text>
+<rect x="658" y="149" width="574" height="152" rx="15" fill="#20281e" stroke="#536338"/>
+<rect x="658" y="149" width="6" height="152" rx="3" fill="#d2f642"/>
+<text x="684" y="188" font-size="25" font-weight="700" fill="#d2f642">已有服务 / 接续优化</text>
+<text x="684" y="232" font-size="24" font-weight="600" fill="#f6f4e8">核对实际服务与部署记录</text>
+<text x="684" y="269" font-size="21" font-weight="400" fill="#c4cdbc">保留有效改进 → 定位当前瓶颈</text>
+<path d="M335 302V335H640M945 302V335H640M640 335V365H150V396" fill="none" stroke="#d2f642" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="48" y="400" width="216" height="142" rx="14" fill="#1d231c" stroke="#3b4934"/>
+<text x="66" y="435" font-size="21" font-weight="700" fill="#d2f642">01</text>
+<text x="66" y="475" font-size="23" font-weight="650" fill="#f6f4e8">短任务耗时</text>
+<text x="66" y="510" font-size="18" font-weight="400" fill="#b6c0b1">传输 · 等待 · 计算</text>
+<path d="M266 468H286" fill="none" stroke="#d2f642" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="290" y="400" width="216" height="142" rx="14" fill="#1d231c" stroke="#3b4934"/>
+<text x="308" y="435" font-size="21" font-weight="700" fill="#d2f642">02</text>
+<text x="308" y="475" font-size="23" font-weight="650" fill="#f6f4e8">上下文与缓存</text>
+<text x="308" y="510" font-size="18" font-weight="400" fill="#b6c0b1">真实生成后的续接</text>
+<path d="M508 468H528" fill="none" stroke="#d2f642" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="532" y="400" width="216" height="142" rx="14" fill="#1d231c" stroke="#3b4934"/>
+<text x="550" y="435" font-size="21" font-weight="700" fill="#d2f642">03</text>
+<text x="550" y="475" font-size="23" font-weight="650" fill="#f6f4e8">实际工作任务</text>
+<text x="550" y="510" font-size="18" font-weight="400" fill="#b6c0b1">常用设置与成果</text>
+<path d="M750 468H770" fill="none" stroke="#d2f642" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="774" y="400" width="216" height="142" rx="14" fill="#1d231c" stroke="#3b4934"/>
+<text x="792" y="435" font-size="21" font-weight="700" fill="#d2f642">04</text>
+<text x="792" y="475" font-size="23" font-weight="650" fill="#f6f4e8">调优与对标</text>
+<text x="792" y="510" font-size="18" font-weight="400" fill="#b6c0b1">适用的 K 与比较</text>
+<path d="M992 468H1012" fill="none" stroke="#d2f642" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1016" y="400" width="216" height="142" rx="14" fill="#1d231c" stroke="#3b4934"/>
+<text x="1034" y="435" font-size="21" font-weight="700" fill="#d2f642">05</text>
+<text x="1034" y="475" font-size="23" font-weight="650" fill="#f6f4e8">验收与交付</text>
+<text x="1034" y="510" font-size="18" font-weight="400" fill="#b6c0b1">质量 · 入口 · 接续</text>
+<text x="48" y="612" font-size="20" font-weight="400" fill="#c4cdbc">单项修复只走相关路径；已有成果复用；冷输入提速按需开展。</text>
+</g>
+</svg>

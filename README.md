@@ -1,5 +1,7 @@
 # Frankenstein · Local LLM Deployment & Optimization Skill
 
+![Frankenstein — Deploy / Optimize / Resume](docs/images/hero.png)
+
 **Give your AI agent an engineering workflow to deploy local models and keep improving the ones you already run.**
 
 English | [简体中文](README.zh-CN.md)
@@ -35,6 +37,8 @@ The workflow covers local and SSH hosts, GPU and CPU inference, multi-GPU execut
 > Use local-llm-deployment-speedup to continue optimizing my existing deployment at [path or host]. Read its deployment notes and inspect the active service first. Preserve accepted improvements and my configuration. Diagnose [slow decode / response latency / cache loss], implement relevant fixes, and verify the affected behavior.
 
 ## How optimization progresses
+
+![Two entry points: a new machine or an existing deployment, followed by relevant measurement, optimization, and validation.](docs/images/workflow-en.svg)
 
 **Inspect → research → agree on a plan → deploy the full configuration → optimize short-request execution → validate longer context and cache reuse → run your actual tasks → tune applicable speculative depth → compare final results → verify quality.**
 
